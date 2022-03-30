@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
 import * as ReactDOMClient from "react-dom/client";
 
 const Wrapper = (props) => {
@@ -12,11 +12,13 @@ const Wrapper = (props) => {
 
 const Section = (props) => {
   const sectionName = props.sectionName;
-  //const contents = props.contents;
   const title = props.titleSection;
   return (
     <section className={sectionName}>
       <Wrapper wrapperName={sectionName + "-wrapper"} titleSection={title}>
+        {props.titleName && <h2 className={sectionName + "-title"}>{props.titleName}</h2>}
+        {props.subtitle && <div className={sectionName + "-subtitle"}>{props.subtitle}</div>}
+        {props.description && <div className={sectionName + "-description"}>{props.description}</div>}
         {props.children}
       </Wrapper>
     </section>
@@ -32,6 +34,14 @@ const FeaturesItem = (props) => {
   );
 };
 
+const Phone = (props) => {
+  return (
+    <div className={props.elementName + "-phonelink"}>
+      <a href="tel:7(962)556-1234">+7(962)556-1234</a>
+    </div>
+  );
+};
+
 const Header = () => {
   return (
     <header>
@@ -40,9 +50,7 @@ const Header = () => {
           <div className="header-logo"></div>
         </a>
         <a href="tel:888" className="header-phone"></a>
-        <div className="header-phonelink">
-          <a href="tel:7(962)556-1234">+7(962)556-1234</a>
-        </div>
+        <Phone elementName="header" />
       </Wrapper>
     </header>
   );
@@ -54,8 +62,8 @@ const MainHero = (props) => {
       <Wrapper wrapperName="main">
         <h1 className="main-head">Заголовок c уникальным торговым предложение по системе 4U </h1>
         <div className="main-small">
-          Описания предлжения компании. Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру
-          сгенерировать несколько абзацев более.
+          Описания предлжения компании. Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать
+          несколько абзацев более.
         </div>
         <button className="btn main-btn">
           <span>Подробнее</span>
@@ -66,13 +74,13 @@ const MainHero = (props) => {
 };
 const Features = (props) => {
   return (
-    <Section sectionName="features">
-      <h2 className="features-head">Уникальный заголовок для преимущества компании</h2>
-      <div className="features-subhead">О нас</div>
-      <div className="features-description">
-        Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев
-        более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить.
-      </div>
+    <Section
+      sectionName="features"
+      titleName="Уникальный заголовок для преимущества компании"
+      subtitle="О нас"
+      description="Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее
+        осмысленного текста рыбы на русском языке, а начинающему оратору отточить."
+    >
       <div className="features-slider">
         <div className="features-slider_items">
           <FeaturesItem image="./images/1.svg" text="Первое целевое преимущество" />
@@ -99,10 +107,10 @@ const Contact = () => {
   return (
     <Section
       sectionName="contact"
+      titleName="Остались вопросы?"
+      description="Оставьте номер телефона, и мы перезвоним вам"
       // titleSection="Уникальный заголовок для преимущества компании"
     >
-      <h2 className="contact-title">Остались вопросы?</h2>
-      <div className="contact-description">Оставьте номер телефона, и мы перезвоним вам</div>
       <form action="../mailer.smart.php" className="contact-form">
         <input type="text" placeholder="Ваше имя" />
         <input type="tel" placeholder="Телефон" />
@@ -130,22 +138,22 @@ const Footer = () => {
         <div className="footer-websurfer">
           <span className="footer-websurfer_build">Сделано</span> <a href="#">Ваше имя</a>
         </div>
-        <div className="footer-phonelink">
-          <a href="tel:888">+7(962)556-1234</a>
-        </div>
+        <Phone elementName="footer" />
       </div>
     </footer>
   );
 };
 
 const App = () => {
-  return [
-    <Header key="block-0" />,
-    <MainHero key="block-1" />,
-    <Features key="block-2" />,
-    <Contact key="block-3" />,
-    <Footer key="block-4" />,
-  ].map((block) => block);
+  return (
+    <>
+      <Header />
+      <MainHero />
+      <Features />
+      <Contact />
+      <Footer />
+    </>
+  );
 };
 const root = ReactDOMClient.createRoot(document.getElementById("root"));
 
