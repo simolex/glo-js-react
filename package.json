@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "jshint": "^2.13.4"
+    "jshint": "^2.13.4",
+    "styled-components": "^5.3.5"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.24"
   }
 }
