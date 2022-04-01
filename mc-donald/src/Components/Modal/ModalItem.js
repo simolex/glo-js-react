@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { ButtonPrimary } from "./ButtonPrimary";
+import { ButtonPrimary } from "../Style/ButtonPrimary";
 
 const Overlay = styled.div`
   position: fixed;
@@ -58,16 +58,23 @@ const ModalListItem = styled.div`
   width: 100%;
 `;
 
-export const ModalItem = ({ openItem, setOpenItem }) => {
-  function closeModal(e) {
+export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+  const closeModal = (e) => {
     if (e.target.id === "overlay") {
       setOpenItem(null);
     }
-  }
+  };
 
-  if (!openItem) {
-    return null;
-  }
+  const order = {
+    ...openItem,
+  };
+
+  const addToOrder = () => {
+    orders.push(order);
+    setOrders(orders);
+    setOpenItem(null);
+  };
+
   return (
     <Overlay id="overlay" onClick={closeModal}>
       <Modal>
@@ -79,10 +86,10 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
               {openItem.price.toLocaleString("ru-RU", {
                 style: "currency",
                 currency: "RUB",
-              })}{" "}
+              })}
             </span>
           </ModalListItem>
-          <ButtonPrimary>Добавить</ButtonPrimary>
+          <ButtonPrimary onClick={addToOrder}>Добавить</ButtonPrimary>
         </ModalContent>
       </Modal>
     </Overlay>
