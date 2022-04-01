@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { ButtonPrimary } from "../Style/ButtonPrimary";
+import { ButtonPrimary } from "../Styles/ButtonPrimary";
+import { CountItem } from "./CountItem";
+import { useCount } from "../Hooks/useCount";
 
 const Overlay = styled.div`
   position: fixed;
@@ -69,6 +71,8 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
     ...openItem,
   };
 
+  const counter = useCount();
+
   const addToOrder = () => {
     orders.push(order);
     setOrders(orders);
@@ -89,6 +93,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
               })}
             </span>
           </ModalListItem>
+          <CountItem {...counter} />
           <ButtonPrimary onClick={addToOrder}>Добавить</ButtonPrimary>
         </ModalContent>
       </Modal>

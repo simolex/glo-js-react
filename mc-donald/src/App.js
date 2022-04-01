@@ -1,8 +1,8 @@
 import React from "react";
-import { GlobalStyle } from "./Components/Style/GlobalStyle";
+import { GlobalStyle } from "./Components/Styles/GlobalStyle";
 
 import { NavBar } from "./Components/NavBar/NavBar";
-import { Main } from "./Components/Main";
+import { Main } from "./Components/Styles/Main";
 import { Menu } from "./Components/Menu/Menu";
 import { ModalItem } from "./Components/Modal/ModalItem";
 import { Order } from "./Components/Order/Order";

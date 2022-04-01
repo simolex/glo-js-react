@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ButtonPrimary } from "../Style/ButtonPrimary";
+import { ButtonPrimary } from "../Styles/ButtonPrimary";
 import { OrderListItem } from "./OrderListItem";
 
 const OrderStyled = styled.section`
