@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
+import { Toppings } from "./Toppings";
 import { CountItem } from "./CountItem";
 import { useCount } from "../Hooks/useCount";
+import { useTopping } from "../Hooks/useTopping";
 
-import { formatCurrency } from "../Helpers/formatCurrency";
+import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 
 const Overlay = styled.div`
   position: fixed;
@@ -36,7 +38,7 @@ const Modal = styled.div`
 
 const Banner = styled.div`
   width: 100%;
-  height: 200px;
+  height: 150px;
   background-image: url(${({ img }) => img});
   background-size: cover;
   background-position: center;
@@ -48,7 +50,7 @@ const ModalContent = styled.div`
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 30px 35px;
+  padding: 10px 30px 25px;
 `;
 const ModalListItem = styled.div`
   font-family: "Pacifico", cursive;
@@ -68,8 +70,6 @@ const TotalPriceItem = styled.div`
   width: 100%;
 `;
 
-export const totalPriceItems = (order) => order.price * order.count;
-
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   const closeModal = (e) => {
     if (e.target.id === "overlay") {
@@ -78,10 +78,12 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   };
 
   const counter = useCount();
+  const toppings = useTopping(openItem);
 
   const order = {
     ...openItem,
     count: counter.count,
+    topping: toppings.toppingsList,
   };
 
   const addToOrder = () => {
@@ -100,6 +102,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
             <span>{formatCurrency(openItem.price)}</span>
           </ModalListItem>
           <CountItem {...counter} />
+          {openItem.toppings && <Toppings {...toppings} />}
           <TotalPriceItem>
             <span>Цена:</span>
             <span>{formatCurrency(totalPriceItems(order))}</span>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { formatCurrency } from "../Helpers/formatCurrency";
+import { formatCurrency } from "../Others/helperFunctions";
 
 const List = styled.ul`
   display: flex;

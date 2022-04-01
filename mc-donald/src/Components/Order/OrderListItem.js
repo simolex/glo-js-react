@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import trashImg from "../../image/trash.svg";
-import { totalPriceItems } from "../Modal/ModalItem";
-import { formatCurrency } from "../Helpers/formatCurrency";
+
+import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 
 const OrderItemStyled = styled.li`
   display: flex;
@@ -14,6 +14,11 @@ const OrderItemStyled = styled.li`
 
 const ItemName = styled.span`
   flex-grow: 1;
+`;
+
+const ItemToppingList = styled.div`
+  font-size: 12px;
+  color: #aaa;
 `;
 
 const ItemCount = styled.span``;
@@ -38,7 +43,15 @@ const TrashButton = styled.button`
 
 export const OrderListItem = ({ order }) => (
   <OrderItemStyled>
-    <ItemName>{order.name}</ItemName>
+    <ItemName>
+      {order.name}
+      <ItemToppingList>
+        {order.topping &&
+          order.topping
+            .filter((item) => item.checked)
+            .reduce((allTopping, item) => allTopping + (allTopping.length > 0 ? ", " : "") + item.name, "")}
+      </ItemToppingList>
+    </ItemName>
     <ItemCount>{order.count}</ItemCount>
     <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
     <TrashButton />
