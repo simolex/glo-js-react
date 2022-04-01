@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { ButtonPrimary } from "./ButtonPrimary";
+
 const Overlay = styled.div`
   position: fixed;
   display: flex;
@@ -15,6 +17,8 @@ const Overlay = styled.div`
 
 const Modal = styled.div`
   position: fixed;
+  display: flex;
+  flex-direction: column;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -22,6 +26,8 @@ const Modal = styled.div`
   width: 500px;
   height: 450px;
   z-index: 992;
+  border-radius: 8px;
+  overflow: hidden;
 `;
 
 const Banner = styled.div`
@@ -30,8 +36,28 @@ const Banner = styled.div`
   background-image: url(${({ img }) => img});
   background-size: cover;
   background-position: center;
-  margin-bottom: 20px;
 `;
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 50px;
+`;
+const ModalListItem = styled.div`
+  font-family: "Pacifico", cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 53px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
 export const ModalItem = ({ openItem, setOpenItem }) => {
   function closeModal(e) {
     if (e.target.id === "overlay") {
@@ -46,7 +72,18 @@ export const ModalItem = ({ openItem, setOpenItem }) => {
     <Overlay id="overlay" onClick={closeModal}>
       <Modal>
         <Banner img={openItem.img} />
-        {openItem.name}
+        <ModalContent>
+          <ModalListItem>
+            <span>{openItem.name}</span>
+            <span>
+              {openItem.price.toLocaleString("ru-RU", {
+                style: "currency",
+                currency: "RUB",
+              })}{" "}
+            </span>
+          </ModalListItem>
+          <ButtonPrimary>Добавить</ButtonPrimary>
+        </ModalContent>
       </Modal>
     </Overlay>
   );
