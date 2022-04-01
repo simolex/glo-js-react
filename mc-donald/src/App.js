@@ -1,6 +1,5 @@
 import React from "react";
 import { GlobalStyle } from "./Components/Styles/GlobalStyle";
-
 import { NavBar } from "./Components/NavBar/NavBar";
 import { Main } from "./Components/Styles/Main";
 import { Menu } from "./Components/Menu/Menu";
