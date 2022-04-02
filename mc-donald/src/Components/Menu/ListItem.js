@@ -43,15 +43,18 @@ const Item = styled.li`
   }
 `;
 
-export const ListItem = ({ itemList, setOpenItem }) => {
+export const ListItem = ({ itemList, setOpenItem, idPref }) => {
   return (
     <List>
-      {itemList.map((item) => (
-        <Item key={item.id} img={item.img} onClick={() => setOpenItem(item)}>
-          <p>{item.name}</p>
-          <p>{formatCurrency(item.price)}</p>
-        </Item>
-      ))}
+      {itemList.map((item) => {
+        item.keyId = idPref + item.id;
+        return (
+          <Item key={item.id} img={item.img} onClick={() => setOpenItem(item)}>
+            <p>{item.name}</p>
+            <p>{formatCurrency(item.price)}</p>
+          </Item>
+        );
+      })}
     </List>
   );
 };

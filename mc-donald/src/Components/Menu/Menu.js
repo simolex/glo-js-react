@@ -25,11 +25,11 @@ export const Menu = ({ setOpenItem }) => {
       <Banner />
       <SectionMenu>
         <SectionTitle>Бургеры</SectionTitle>
-        <ListItem itemList={dbMenu.burger} setOpenItem={setOpenItem} />
+        <ListItem itemList={dbMenu.burger} setOpenItem={setOpenItem} idPref="bur-" />
       </SectionMenu>
       <SectionMenu>
         <SectionTitle>Закуски / Напитки</SectionTitle>
-        <ListItem itemList={dbMenu.other} setOpenItem={setOpenItem} />
+        <ListItem itemList={dbMenu.other} setOpenItem={setOpenItem} idPref="oth-" />
       </SectionMenu>
     </MenuStyled>
   );

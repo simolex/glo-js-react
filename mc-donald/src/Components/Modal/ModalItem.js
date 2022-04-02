@@ -83,6 +83,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
   const choices = useChoices(openItem);
 
   const order = {
+    orderId: orders.reduce((maxId, item) => (item.orderId > maxId ? item.orderId : maxId), 0) + 1,
     ...openItem,
     count: counter.count,
     topping: toppings.toppingsList,

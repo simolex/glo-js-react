@@ -20,8 +20,8 @@ const OrderStyled = styled.section`
 const OrderTitle = styled.h2`
   text-align: center;
   text-transform: uppercase;
-  font-size: 39px;
-  line-height: 68px;
+  font-size: 32px;
+  line-height: 174%;
   margin-bottom: 15px;
 `;
 
@@ -51,9 +51,13 @@ const TotalPrice = styled.span`
   margin-right: 35px;
 `;
 
-export const Order = ({ orders }) => {
+export const Order = ({ orders, setOrders }) => {
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
   const totalCount = orders.reduce((result, order) => result + order.count, 0);
+
+  const delOrderItem = (orderId) => {
+    setOrders(orders.filter((item) => orderId != item.orderId));
+  };
 
   return (
     <OrderStyled>
@@ -62,7 +66,7 @@ export const Order = ({ orders }) => {
         {orders.length ? (
           <OrderList>
             {orders.map((order, index) => (
-              <OrderListItem key={index} order={order} />
+              <OrderListItem key={order.orderId} order={order} delOrderItem={delOrderItem} />
             ))}
           </OrderList>
         ) : (

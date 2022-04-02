@@ -42,14 +42,14 @@ const TrashButton = styled.button`
   background-repeat: no-repeat;
 `;
 
-export const OrderListItem = ({ order }) => (
+export const OrderListItem = ({ order, delOrderItem }) => (
   <OrderItemStyled>
     <ItemName>
       {order.name} ({order.choice})
     </ItemName>
     <ItemCount>{order.count}</ItemCount>
     <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-    <TrashButton />
+    <TrashButton onClick={() => delOrderItem(order.orderId)} />
     {order.topping && (
       <ItemToppingList>
         {order.topping
