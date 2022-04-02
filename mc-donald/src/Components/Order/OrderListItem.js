@@ -10,6 +10,7 @@ const OrderItemStyled = styled.li`
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
+  flex-wrap: wrap;
 `;
 
 const ItemName = styled.span`
@@ -18,7 +19,7 @@ const ItemName = styled.span`
 
 const ItemToppingList = styled.div`
   font-size: 12px;
-  color: #aaa;
+  color: #9a9a9a;
 `;
 
 const ItemCount = styled.span``;
@@ -44,16 +45,18 @@ const TrashButton = styled.button`
 export const OrderListItem = ({ order }) => (
   <OrderItemStyled>
     <ItemName>
-      {order.name}
-      <ItemToppingList>
-        {order.topping &&
-          order.topping
-            .filter((item) => item.checked)
-            .reduce((allTopping, item) => allTopping + (allTopping.length > 0 ? ", " : "") + item.name, "")}
-      </ItemToppingList>
+      {order.name} ({order.choice})
     </ItemName>
     <ItemCount>{order.count}</ItemCount>
     <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
     <TrashButton />
+    {order.topping && (
+      <ItemToppingList>
+        {order.topping
+          .filter((item) => item.checked)
+          .map((item) => item.name)
+          .join(", ")}
+      </ItemToppingList>
+    )}
   </OrderItemStyled>
 );

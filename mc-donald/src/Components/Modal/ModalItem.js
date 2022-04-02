@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
 import { Toppings } from "./Toppings";
 import { CountItem } from "./CountItem";
+import { Choices } from "./Choices";
 import { useCount } from "../Hooks/useCount";
 import { useTopping } from "../Hooks/useTopping";
+import { useChoices } from "../Hooks/useChoices";
 
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 
@@ -79,11 +80,13 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
   const counter = useCount();
   const toppings = useTopping(openItem);
+  const choices = useChoices(openItem);
 
   const order = {
     ...openItem,
     count: counter.count,
     topping: toppings.toppingsList,
+    choice: choices.choice,
   };
 
   const addToOrder = () => {
@@ -103,11 +106,14 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
           </ModalListItem>
           <CountItem {...counter} />
           {openItem.toppings && <Toppings {...toppings} />}
+          {openItem.choices && <Choices {...choices} openItem={openItem} />}
           <TotalPriceItem>
             <span>Цена:</span>
             <span>{formatCurrency(totalPriceItems(order))}</span>
           </TotalPriceItem>
-          <ButtonPrimary onClick={addToOrder}>Добавить</ButtonPrimary>
+          <ButtonPrimary onClick={addToOrder} disabled={order.choices && !order.choice}>
+            Добавить
+          </ButtonPrimary>
         </ModalContent>
       </Modal>
     </Overlay>

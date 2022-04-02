@@ -21,4 +21,13 @@ export const ButtonPrimary = styled.button`
     color: #299b01;
     border-color: #299b01;
   }
+  &:disabled {
+    background-color: #9a9a9a;
+    border-color: #9a9a9a;
+    &:hover {
+      border-color: #9a9a9a;
+      background-color: #9a9a9a;
+      color: #fff;
+    }
+  }
 `;
