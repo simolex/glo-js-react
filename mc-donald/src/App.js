@@ -34,7 +34,7 @@ function App() {
       <GlobalStyle />
       <NavBar {...auth} />
       <Main>
-        <Order {...orders} {...openItem} />
+        <Order {...orders} {...openItem} {...auth} />
         <Menu {...openItem} />
       </Main>
       {openItem.openItem && <ModalItem {...openItem} {...orders} />}

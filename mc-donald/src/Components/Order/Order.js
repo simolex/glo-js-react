@@ -51,13 +51,15 @@ const TotalPrice = styled.span`
   margin-right: 35px;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem }) => {
+export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn }) => {
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
   const totalCount = orders.reduce((result, order) => result + order.count, 0);
 
   const delOrderItem = (orderId) => {
     setOrders(orders.filter((item) => orderId !== item.orderId));
   };
+
+  //const checkoutOrder = ;
 
   return (
     <OrderStyled>
@@ -78,7 +80,17 @@ export const Order = ({ orders, setOrders, setOpenItem }) => {
         <span>{totalCount}</span>
         <TotalPrice>{formatCurrency(total)}</TotalPrice>
       </Total>
-      <ButtonPrimary>Оформить</ButtonPrimary>
+      <ButtonPrimary
+        onClick={() => {
+          if (authentication) {
+            console.log(orders);
+          } else {
+            logIn();
+          }
+        }}
+      >
+        Оформить
+      </ButtonPrimary>
     </OrderStyled>
   );
 };
