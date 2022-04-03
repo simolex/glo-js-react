@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
 import { OrderListItem } from "./OrderListItem";
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
+import { projection } from "../Others/helperFunctions";
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -51,7 +52,28 @@ const TotalPrice = styled.span`
   margin-right: 35px;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn }) => {
+const rulesData = {
+  name: ["name"],
+  price: ["price"],
+  count: ["count"],
+  topping: [
+    "topping",
+    (list) => list.filter((obj) => obj.checked).map((obj) => obj.name),
+    (arr) => (arr.length ? arr : "no toppings"),
+  ],
+  choice: ["choice", (item) => (item ? item : "no choices")],
+};
+
+export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, firebaseDatabase }) => {
+  const sendOrder = () => {
+    const newOrder = orders.map(projection(rulesData));
+    firebaseDatabase.ref("orders").push().set({
+      nameClient: authentication.displayName,
+      email: authentication.email,
+      order: newOrder,
+    });
+  };
+  //console.log(firebaseDatabase);
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
   const totalCount = orders.reduce((result, order) => result + order.count, 0);
 
@@ -83,7 +105,7 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn })
       <ButtonPrimary
         onClick={() => {
           if (authentication) {
-            console.log(orders);
+            sendOrder();
           } else {
             logIn();
           }
