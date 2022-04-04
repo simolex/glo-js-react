@@ -5,6 +5,8 @@ import { OrderListItem } from "./OrderListItem";
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 import { projection } from "../Others/helperFunctions";
 
+import { ref, set, push, child } from "firebase/database";
+
 const OrderStyled = styled.section`
   position: fixed;
   top: 80px;
@@ -64,24 +66,33 @@ const rulesData = {
   choice: ["choice", (item) => (item ? item : "no choices")],
 };
 
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, firebaseDatabase }) => {
+export const Order = ({
+  orders,
+  setOrders,
+  setOpenItem,
+  authentication,
+  logIn,
+  firebaseDatabase,
+}) => {
   const sendOrder = () => {
     const newOrder = orders.map(projection(rulesData));
-    firebaseDatabase.ref("orders").push().set({
+    const newOrderKey = push(child(ref(firebaseDatabase), "orders")).key;
+
+    set(ref(firebaseDatabase, "orders/" + newOrderKey), {
       nameClient: authentication.displayName,
       email: authentication.email,
       order: newOrder,
     });
+
+    setOrders([]);
   };
-  //console.log(firebaseDatabase);
+
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
   const totalCount = orders.reduce((result, order) => result + order.count, 0);
 
   const delOrderItem = (orderId) => {
     setOrders(orders.filter((item) => orderId !== item.orderId));
   };
-
-  //const checkoutOrder = ;
 
   return (
     <OrderStyled>
@@ -90,7 +101,12 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, f
         {orders.length ? (
           <OrderList>
             {orders.map((order) => (
-              <OrderListItem key={order.orderId} order={order} delOrderItem={delOrderItem} setOpenItem={setOpenItem} />
+              <OrderListItem
+                key={order.orderId}
+                order={order}
+                delOrderItem={delOrderItem}
+                setOpenItem={setOpenItem}
+              />
             ))}
           </OrderList>
         ) : (

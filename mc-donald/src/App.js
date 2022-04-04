@@ -1,7 +1,7 @@
 import React from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase } from "firebase/database";
 import { GlobalStyle } from "./Components/Styles/GlobalStyle";
 import { NavBar } from "./Components/NavBar/NavBar";
 import { Main } from "./Components/Styles/Main";
@@ -20,6 +20,7 @@ const firebaseConfig = {
   storageBucket: "mrdon-4359b.appspot.com",
   messagingSenderId: "401177503371",
   appId: "1:401177503371:web:09b2d8bbf1c6a13222568e",
+  databaseURL: "https://mrdon-4359b-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
 const appFirebase = initializeApp(firebaseConfig);
