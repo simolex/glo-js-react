@@ -18,6 +18,6 @@ export const useAuth = (authFirebase) => {
         setAuthentication(null);
       }
     });
-  }, [authentication]);
+  }, [auth]);
   return { authentication, logIn, logOut };
 };
