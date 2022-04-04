@@ -10,6 +10,5 @@ export const useTitle = (openItem) => {
       title += ` - ${openItem.name}`;
     }
     document.title = title;
-    console.log(openItem);
   }, [openItem]);
 };
