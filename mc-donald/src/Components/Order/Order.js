@@ -3,9 +3,6 @@ import styled from "styled-components";
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
 import { OrderListItem } from "./OrderListItem";
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
-import { projection } from "../Others/helperFunctions";
-
-import { ref, set, push, child } from "firebase/database";
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -20,7 +17,7 @@ const OrderStyled = styled.section`
   padding: 20px;
 `;
 
-const OrderTitle = styled.h2`
+export const OrderTitle = styled.h2`
   text-align: center;
   text-transform: uppercase;
   font-size: 32px;
@@ -40,31 +37,19 @@ const EmptyList = styled.p`
   text-align: center;
 `;
 
-const Total = styled.div`
+export const Total = styled.div`
   display: flex;
   margin-bottom: 15px;
   & span:first-child {
     flex-grow: 1;
   }
 `;
-const TotalPrice = styled.span`
+export const TotalPrice = styled.span`
   text-align: right;
   min-width: 65px;
   margin-left: 20px;
   margin-right: 35px;
 `;
-
-const rulesData = {
-  name: ["name"],
-  price: ["price"],
-  count: ["count"],
-  topping: [
-    "topping",
-    (list) => list.filter((obj) => obj.checked).map((obj) => obj.name),
-    (arr) => (arr.length ? arr : "no toppings"),
-  ],
-  choice: ["choice", (item) => (item ? item : "no choices")],
-};
 
 export const Order = ({
   orders,
@@ -72,21 +57,8 @@ export const Order = ({
   setOpenItem,
   authentication,
   logIn,
-  firebaseDatabase,
+  setOpenOrderConfirm,
 }) => {
-  const sendOrder = () => {
-    const newOrder = orders.map(projection(rulesData));
-    const newOrderKey = push(child(ref(firebaseDatabase), "orders")).key;
-
-    set(ref(firebaseDatabase, "orders/" + newOrderKey), {
-      nameClient: authentication.displayName,
-      email: authentication.email,
-      order: newOrder,
-    });
-
-    setOrders([]);
-  };
-
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
   const totalCount = orders.reduce((result, order) => result + order.count, 0);
 
@@ -121,7 +93,7 @@ export const Order = ({
       <ButtonPrimary
         onClick={() => {
           if (authentication) {
-            sendOrder();
+            setOpenOrderConfirm(true);
           } else {
             logIn();
           }

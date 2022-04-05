@@ -10,9 +10,11 @@ import { ModalItem } from "./Components/Modal/ModalItem";
 import { Order } from "./Components/Order/Order";
 import { useOpenItem } from "./Components/Hooks/useOpenItem";
 import { useOrders } from "./Components/Hooks/useOrders";
-
 import { useAuth } from "./Components/Hooks/useAuth";
 import { useTitle } from "./Components/Hooks/useTitle";
+import { useOrderConfirm } from "./Components/Hooks/useOrderConfirm";
+import { OrderConfirm } from "./Components/Order/OrderConfirm";
+import { Context } from "./Components/Others/context";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsMTErSD-JyRp3zlOjJOnnEjXCGYjFSSE",
@@ -30,19 +32,29 @@ function App() {
   const auth = useAuth(getAuth(appFirebase));
 
   const openItem = useOpenItem();
-  const orders = useOrders();
   useTitle(openItem.openItem);
 
+  const orders = useOrders();
+  const orderConfirm = useOrderConfirm();
+
   return (
-    <>
+    <Context.Provider value={{ auth, openItem }}>
       <GlobalStyle />
-      <NavBar {...auth} />
+      <NavBar />
       <Main>
-        <Order {...orders} {...openItem} {...auth} firebaseDatabase={getDatabase(appFirebase)} />
-        <Menu {...openItem} />
+        <Order {...orders} {...openItem} {...auth} {...orderConfirm} />
+        <Menu />
       </Main>
       {openItem.openItem && <ModalItem {...openItem} {...orders} />}
-    </>
+      {orderConfirm.openOrderConfirm && (
+        <OrderConfirm
+          {...orders}
+          {...auth}
+          {...orderConfirm}
+          firebaseDatabase={getDatabase(appFirebase)}
+        />
+      )}
+    </Context.Provider>
   );
 }
 

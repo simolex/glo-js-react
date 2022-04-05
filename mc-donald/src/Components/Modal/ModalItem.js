@@ -10,7 +10,7 @@ import { useChoices } from "../Hooks/useChoices";
 
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 
-const Overlay = styled.div`
+export const Overlay = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
@@ -130,7 +130,10 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
             <span>Цена:</span>
             <span>{formatCurrency(totalPriceItems(order))}</span>
           </TotalPriceItem>
-          <ButtonPrimary onClick={isEdit ? editToOrder : addToOrder} disabled={order.choices && !order.choice}>
+          <ButtonPrimary
+            onClick={isEdit ? editToOrder : addToOrder}
+            disabled={order.choices && !order.choice}
+          >
             {isEdit ? "Изменить" : "Добавить"}
           </ButtonPrimary>
         </ModalContent>
