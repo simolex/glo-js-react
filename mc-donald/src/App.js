@@ -13,6 +13,7 @@ import { useOrders } from "./Components/Hooks/useOrders";
 
 import { useAuth } from "./Components/Hooks/useAuth";
 import { useTitle } from "./Components/Hooks/useTitle";
+import { useDB } from "./Components/Hooks/useDB";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsMTErSD-JyRp3zlOjJOnnEjXCGYjFSSE",
@@ -24,10 +25,12 @@ const firebaseConfig = {
   databaseURL: "https://mrdon-4359b-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
-const appFirebase = initializeApp(firebaseConfig);
-
 function App() {
+  const appFirebase = initializeApp(firebaseConfig);
   const auth = useAuth(getAuth(appFirebase));
+  const firebaseDatabase = getDatabase(appFirebase);
+
+  const dbMenu = useDB(firebaseDatabase);
 
   const openItem = useOpenItem();
   const orders = useOrders();
@@ -38,8 +41,8 @@ function App() {
       <GlobalStyle />
       <NavBar {...auth} />
       <Main>
-        <Order {...orders} {...openItem} {...auth} firebaseDatabase={getDatabase(appFirebase)} />
-        <Menu {...openItem} />
+        <Order {...orders} {...openItem} {...auth} firebaseDatabase={firebaseDatabase} />
+        <Menu {...openItem} dbMenu={dbMenu} />
       </Main>
       {openItem.openItem && <ModalItem {...openItem} {...orders} />}
     </>

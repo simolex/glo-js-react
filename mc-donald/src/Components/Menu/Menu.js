@@ -5,7 +5,7 @@ import { ListItem } from "./ListItem";
 
 import { Banner } from "./Banner";
 
-import { useFetch } from "../Hooks/useFetch";
+//import { useFetch } from "../Hooks/useFetch";
 
 const MenuStyled = styled.main`
   width: 100%;
@@ -22,16 +22,14 @@ const SectionTitle = styled.h2`
   margin-bottom: 20px;
 `;
 
-export const Menu = ({ setOpenItem }) => {
-  // setRequest] = useFetch();
-  const { response, error } = useFetch();
-
-  const dbMenu = response;
+export const Menu = ({ setOpenItem, dbMenu }) => {
+  // const { response, error } = useFetch();
+  // const dbMenu = response;
 
   return (
     <MenuStyled>
       <Banner />
-      {response ? (
+      {dbMenu ? (
         <>
           <SectionMenu>
             <SectionTitle>Бургеры</SectionTitle>
@@ -42,8 +40,6 @@ export const Menu = ({ setOpenItem }) => {
             <ListItem itemList={dbMenu.other} setOpenItem={setOpenItem} idPref="oth-" />
           </SectionMenu>
         </>
-      ) : error ? (
-        <div>Ошибка загрузки...</div>
       ) : (
         <div>Зарузка...</div>
       )}
