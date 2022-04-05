@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-
+import { Context } from "../Others/context";
 import { projection, formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 import { ref, set, push, child } from "firebase/database";
 
@@ -52,16 +52,23 @@ const sendOrder = ({ orders, firebaseDatabase, authentication }) => {
   });
 };
 
-export const OrderConfirm = ({
-  orders,
-  setOrders,
-  authentication,
-  firebaseDatabase,
-  setOpenOrderConfirm,
-}) => {
+export const OrderConfirm = ({ firebaseDatabase }) => {
+  const {
+    auth: { authentication },
+    orders: { orders, setOrders },
+    orderConfirm: { setOpenOrderConfirm },
+  } = useContext(Context);
+
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
+
+  const closeConfirm = (e) => {
+    if (e.target.id === "overlay") {
+      setOpenOrderConfirm(false);
+    }
+  };
+
   return (
-    <Overlay>
+    <Overlay id="overlay" onClick={closeConfirm}>
       <Modal>
         <OrderTitle>{authentication.displayName}</OrderTitle>
         <Text>Подтвердите заказ</Text>

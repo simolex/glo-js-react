@@ -22,13 +22,11 @@ const SectionTitle = styled.h2`
 `;
 
 export const Menu = () => {
-  const di = useContext(Context);
   const {
     openItem: { setOpenItem },
-  } = di;
-  const { response, error } = useFetch();
+  } = useContext(Context);
 
-  const dbMenu = response;
+  const { response, error } = useFetch();
 
   return (
     <MenuStyled>
@@ -37,11 +35,11 @@ export const Menu = () => {
         <>
           <SectionMenu>
             <SectionTitle>Бургеры</SectionTitle>
-            <ListItem itemList={dbMenu.burger} setOpenItem={setOpenItem} idPref="bur-" />
+            <ListItem itemList={response.burger} setOpenItem={setOpenItem} idPref="bur-" />
           </SectionMenu>
           <SectionMenu>
             <SectionTitle>Закуски / Напитки</SectionTitle>
-            <ListItem itemList={dbMenu.other} setOpenItem={setOpenItem} idPref="oth-" />
+            <ListItem itemList={response.other} setOpenItem={setOpenItem} idPref="oth-" />
           </SectionMenu>
         </>
       ) : error ? (

@@ -30,29 +30,22 @@ const appFirebase = initializeApp(firebaseConfig);
 
 function App() {
   const auth = useAuth(getAuth(appFirebase));
-
   const openItem = useOpenItem();
-  useTitle(openItem.openItem);
-
   const orders = useOrders();
   const orderConfirm = useOrderConfirm();
+  useTitle(openItem.openItem);
 
   return (
-    <Context.Provider value={{ auth, openItem }}>
+    <Context.Provider value={{ auth, openItem, orders, orderConfirm }}>
       <GlobalStyle />
       <NavBar />
       <Main>
-        <Order {...orders} {...openItem} {...auth} {...orderConfirm} />
+        <Order />
         <Menu />
       </Main>
-      {openItem.openItem && <ModalItem {...openItem} {...orders} />}
+      {openItem.openItem && <ModalItem />}
       {orderConfirm.openOrderConfirm && (
-        <OrderConfirm
-          {...orders}
-          {...auth}
-          {...orderConfirm}
-          firebaseDatabase={getDatabase(appFirebase)}
-        />
+        <OrderConfirm {...orderConfirm} firebaseDatabase={getDatabase(appFirebase)} />
       )}
     </Context.Provider>
   );

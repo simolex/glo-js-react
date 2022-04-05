@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
 import { OrderListItem } from "./OrderListItem";
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
+import { Context } from "../Others/context";
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -51,14 +52,14 @@ export const TotalPrice = styled.span`
   margin-right: 35px;
 `;
 
-export const Order = ({
-  orders,
-  setOrders,
-  setOpenItem,
-  authentication,
-  logIn,
-  setOpenOrderConfirm,
-}) => {
+export const Order = () => {
+  const {
+    auth: { authentication, logIn },
+    openItem: { setOpenItem },
+    orders: { orders, setOrders },
+    orderConfirm: { setOpenOrderConfirm },
+  } = useContext(Context);
+
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
   const totalCount = orders.reduce((result, order) => result + order.count, 0);
 
