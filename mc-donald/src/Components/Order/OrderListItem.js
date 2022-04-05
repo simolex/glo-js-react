@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
 import trashImg from "../../image/trash.svg";
-
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
+import { Context } from "../Others/contexts";
 
 const OrderItemStyled = styled.li`
   display: flex;
@@ -44,7 +44,10 @@ const TrashButton = styled.button`
   background-repeat: no-repeat;
 `;
 
-export const OrderListItem = ({ order, delOrderItem, setOpenItem }) => {
+export const OrderListItem = ({ order, delOrderItem }) => {
+  const {
+    openItem: { setOpenItem },
+  } = useContext(Context);
   const refDeleteButton = useRef(null);
   return (
     <OrderItemStyled onClick={(e) => e.target !== refDeleteButton.current && setOpenItem({ ...order })}>

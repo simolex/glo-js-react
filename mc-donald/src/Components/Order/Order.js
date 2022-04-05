@@ -55,7 +55,6 @@ export const TotalPrice = styled.span`
 export const Order = () => {
   const {
     auth: { authentication, logIn },
-    openItem: { setOpenItem },
     orders: { orders, setOrders },
     orderConfirm: { setOpenOrderConfirm },
   } = useContext(Context);
@@ -74,12 +73,7 @@ export const Order = () => {
         {orders.length ? (
           <OrderList>
             {orders.map((order) => (
-              <OrderListItem
-                key={order.orderId}
-                order={order}
-                delOrderItem={delOrderItem}
-                setOpenItem={setOpenItem}
-              />
+              <OrderListItem key={order.orderId} order={order} delOrderItem={delOrderItem} />
             ))}
           </OrderList>
         ) : (
