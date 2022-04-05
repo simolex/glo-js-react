@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import logoImg from "../../image/logo.svg";
 import signImg from "../../image/sign.svg";
-import { Context } from "../Others/context";
+import { Context } from "../Others/contexts";
 
 const NavBarStyled = styled.header`
   position: fixed;

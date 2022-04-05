@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { ListItem } from "./ListItem";
 import { Banner } from "./Banner";
 import { useFetch } from "../Hooks/useFetch";
-import { Context } from "../Others/context";
 
 const MenuStyled = styled.main`
   width: 100%;
@@ -22,10 +21,6 @@ const SectionTitle = styled.h2`
 `;
 
 export const Menu = () => {
-  const {
-    openItem: { setOpenItem },
-  } = useContext(Context);
-
   const { response, error } = useFetch();
 
   return (
@@ -35,11 +30,11 @@ export const Menu = () => {
         <>
           <SectionMenu>
             <SectionTitle>Бургеры</SectionTitle>
-            <ListItem itemList={response.burger} setOpenItem={setOpenItem} idPref="bur-" />
+            <ListItem itemList={response.burger} idPref="bur-" />
           </SectionMenu>
           <SectionMenu>
             <SectionTitle>Закуски / Напитки</SectionTitle>
-            <ListItem itemList={response.other} setOpenItem={setOpenItem} idPref="oth-" />
+            <ListItem itemList={response.other} idPref="oth-" />
           </SectionMenu>
         </>
       ) : error ? (

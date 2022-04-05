@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { ModalContext, Context } from "../Others/contexts";
 
 const ChoicesWrap = styled.div`
   width: 100%;
@@ -17,7 +18,13 @@ const ChoiceLabel = styled.label`
   word-break: break-all;
 `;
 
-export const Choices = ({ changeChoices, openItem, choice }) => {
+export const Choices = () => {
+  const {
+    openItem: { openItem },
+  } = useContext(Context);
+  const {
+    choices: { changeChoices, choice },
+  } = useContext(ModalContext);
   return (
     <>
       <h3>Выбирайте:</h3>

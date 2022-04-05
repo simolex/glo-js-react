@@ -7,7 +7,7 @@ import { Choices } from "./Choices";
 import { useCount } from "../Hooks/useCount";
 import { useTopping } from "../Hooks/useTopping";
 import { useChoices } from "../Hooks/useChoices";
-import { Context } from "../Others/context";
+import { ModalContext, Context } from "../Others/contexts";
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 
 export const Overlay = styled.div`
@@ -128,9 +128,11 @@ export const ModalItem = () => {
             <span>{openItem.name}</span>
             <span>{formatCurrency(openItem.price)}</span>
           </ModalListItem>
-          <CountItem {...counter} />
-          {openItem.toppings && <Toppings {...toppings} />}
-          {openItem.choices && <Choices {...choices} openItem={openItem} />}
+          <ModalContext.Provider value={{ counter, toppings, choices }}>
+            <CountItem />
+            {openItem.toppings && <Toppings />}
+            {openItem.choices && <Choices />}
+          </ModalContext.Provider>
           <TotalPriceItem>
             <span>Цена:</span>
             <span>{formatCurrency(totalPriceItems(order))}</span>

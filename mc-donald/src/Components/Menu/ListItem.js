@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { Context } from "../Others/contexts";
 import { formatCurrency } from "../Others/helperFunctions";
-
 const List = styled.ul`
   display: flex;
   justify-content: space-around;
@@ -43,7 +43,11 @@ const Item = styled.li`
   }
 `;
 
-export const ListItem = ({ itemList, setOpenItem, idPref }) => {
+export const ListItem = ({ itemList, idPref }) => {
+  const {
+    openItem: { setOpenItem },
+  } = useContext(Context);
+
   return (
     <List>
       {itemList.map((item) => {

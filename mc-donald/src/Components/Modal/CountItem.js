@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+
+import { ModalContext } from "../Others/contexts";
 
 const CountWrapper = styled.div`
   width: 100%;
@@ -24,7 +26,11 @@ const CountButton = styled.button`
   }
 `;
 
-export const CountItem = ({ count, setCount, onChange }) => {
+export const CountItem = () => {
+  const {
+    counter: { count, setCount, onChange },
+  } = useContext(ModalContext);
+
   return (
     <CountWrapper>
       <span>Количество</span>

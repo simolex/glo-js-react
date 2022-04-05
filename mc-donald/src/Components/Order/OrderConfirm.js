@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Context } from "../Others/context";
+import { Context } from "../Others/contexts";
 import { projection, formatCurrency, totalPriceItems } from "../Others/helperFunctions";
 import { ref, set, push, child } from "firebase/database";
 
@@ -52,11 +52,12 @@ const sendOrder = ({ orders, firebaseDatabase, authentication }) => {
   });
 };
 
-export const OrderConfirm = ({ firebaseDatabase }) => {
+export const OrderConfirm = () => {
   const {
     auth: { authentication },
     orders: { orders, setOrders },
     orderConfirm: { setOpenOrderConfirm },
+    firebaseDatabase,
   } = useContext(Context);
 
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);

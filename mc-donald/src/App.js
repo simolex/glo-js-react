@@ -14,7 +14,7 @@ import { useAuth } from "./Components/Hooks/useAuth";
 import { useTitle } from "./Components/Hooks/useTitle";
 import { useOrderConfirm } from "./Components/Hooks/useOrderConfirm";
 import { OrderConfirm } from "./Components/Order/OrderConfirm";
-import { Context } from "./Components/Others/context";
+import { Context } from "./Components/Others/contexts";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsMTErSD-JyRp3zlOjJOnnEjXCGYjFSSE",
@@ -26,9 +26,8 @@ const firebaseConfig = {
   databaseURL: "https://mrdon-4359b-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
-const appFirebase = initializeApp(firebaseConfig);
-
 function App() {
+  const appFirebase = initializeApp(firebaseConfig);
   const auth = useAuth(getAuth(appFirebase));
   const openItem = useOpenItem();
   const orders = useOrders();
@@ -36,7 +35,9 @@ function App() {
   useTitle(openItem.openItem);
 
   return (
-    <Context.Provider value={{ auth, openItem, orders, orderConfirm }}>
+    <Context.Provider
+      value={{ auth, openItem, orders, orderConfirm, firebaseDatabase: getDatabase(appFirebase) }}
+    >
       <GlobalStyle />
       <NavBar />
       <Main>
@@ -44,9 +45,7 @@ function App() {
         <Menu />
       </Main>
       {openItem.openItem && <ModalItem />}
-      {orderConfirm.openOrderConfirm && (
-        <OrderConfirm {...orderConfirm} firebaseDatabase={getDatabase(appFirebase)} />
-      )}
+      {orderConfirm.openOrderConfirm && <OrderConfirm />}
     </Context.Provider>
   );
 }

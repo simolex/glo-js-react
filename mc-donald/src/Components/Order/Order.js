@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
 import { OrderListItem } from "./OrderListItem";
 import { formatCurrency, totalPriceItems } from "../Others/helperFunctions";
-import { Context } from "../Others/context";
+import { Context } from "../Others/contexts";
 
 const OrderStyled = styled.section`
   position: fixed;
