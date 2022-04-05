@@ -83,25 +83,31 @@ export const Order = () => {
             ))}
           </OrderList>
         ) : (
-          <EmptyList>Вы ничего не выбрали</EmptyList>
+          <EmptyList>Хотите что-то выбрать?</EmptyList>
         )}
       </OrderContent>
-      <Total>
-        <span>Итого:</span>
-        <span>{totalCount}</span>
-        <TotalPrice>{formatCurrency(total)}</TotalPrice>
-      </Total>
-      <ButtonPrimary
-        onClick={() => {
-          if (authentication) {
-            setOpenOrderConfirm(true);
-          } else {
-            logIn();
-          }
-        }}
-      >
-        Оформить
-      </ButtonPrimary>
+      {orders.length ? (
+        <>
+          <Total>
+            <span>Итого:</span>
+            <span>{totalCount}</span>
+            <TotalPrice>{formatCurrency(total)}</TotalPrice>
+          </Total>
+          <ButtonPrimary
+            onClick={() => {
+              if (authentication) {
+                setOpenOrderConfirm(true);
+              } else {
+                logIn();
+              }
+            }}
+          >
+            Оформить
+          </ButtonPrimary>
+        </>
+      ) : (
+        <div></div>
+      )}
     </OrderStyled>
   );
 };
