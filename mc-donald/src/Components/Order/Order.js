@@ -40,7 +40,7 @@ export const OrderTitle = styled.h2`
     rgba(156, 136, 50, 1) 79%
   );
 
-  filter: drop-shadow(1px 2px rgba(74, 61, 24, 0.5));
+  filter: drop-shadow(2px 3px 3px rgba(74, 61, 24, 0.5));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;

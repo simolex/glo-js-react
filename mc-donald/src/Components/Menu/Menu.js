@@ -19,7 +19,7 @@ const SectionMenu = styled.section`
 const SectionTitle = styled.h2`
   background: rgb(252, 242, 177);
   background: linear-gradient(
-    175deg,
+    177deg,
     #fcf2b0 0%,
     #cbbf52 11%,
     #a98c3d 26%,
@@ -31,10 +31,10 @@ const SectionTitle = styled.h2`
     #9c8832 79%
   );
 
-  filter: drop-shadow(1px 2px rgba(74, 61, 24, 0.5));
+  filter: drop-shadow(1px 2px 3px rgba(74, 61, 24, 0.5));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-size: 400px;
+  background-size: 20rem;
   margin-bottom: 20px;
 `;
 
