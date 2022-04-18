@@ -33,7 +33,7 @@ function App() {
   const orders = useOrders();
   const orderConfirm = useOrderConfirm();
   useTitle(openItem.openItem);
-  console.log(orders);
+  //console.log(orders);
 
   return (
     <Context.Provider
