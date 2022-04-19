@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { Context } from "../Others/contexts";
 import { projection, formatCurrency, totalPriceItems } from "../Others/helperFunctions";
-import { ref, set, push, child } from "firebase/database";
-
 import { Overlay } from "../Modal/ModalItem";
 import { OrderTitle, Total, TotalPrice } from "./Order";
 import { ButtonPrimary } from "../Styles/ButtonPrimary";
@@ -41,15 +39,24 @@ const rulesData = {
   choice: ["choice", (item) => (item ? item : "no choices")],
 };
 
-const sendOrder = ({ orders, firebaseDatabase, authentication }) => {
-  const newOrder = orders.map(projection(rulesData));
-  const newOrderKey = push(child(ref(firebaseDatabase), "orders")).key;
+//const fetcher = (url) => fetch(url).then((res) => res.json())
 
-  set(ref(firebaseDatabase, "orders/" + newOrderKey), {
+const sendOrder = ({ orders, authentication }) => {
+  const newOrder = orders.map(projection(rulesData));
+
+  const orderPackage = {
     nameClient: authentication.displayName,
     email: authentication.email,
     order: newOrder,
-  });
+  };
+
+  const sd = fetch(`/api/order`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(orderPackage),
+  }).then((res) => res.json());
 };
 
 export const OrderConfirm = () => {
@@ -57,7 +64,6 @@ export const OrderConfirm = () => {
     auth: { authentication },
     orders: { orders, setOrders },
     orderConfirm: { setOpenOrderConfirm },
-    firebaseDatabase,
   } = useContext(Context);
 
   const total = orders.reduce((result, order) => result + totalPriceItems(order), 0);
@@ -79,7 +85,7 @@ export const OrderConfirm = () => {
         </Total>
         <ButtonPrimary
           onClick={() => {
-            sendOrder({ orders, firebaseDatabase, authentication });
+            sendOrder({ orders, authentication });
             setOrders([]);
             setOpenOrderConfirm(false);
           }}
