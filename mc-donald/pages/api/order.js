@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 
-import { getDatabase, ref, set, push, child, get } from "firebase/database";
+import { getDatabase, ref, set, push, child } from "firebase/database";
 const nodemailer = require("nodemailer");
 const htmlToText = require("nodemailer-html-to-text").htmlToText;
 
@@ -16,21 +16,32 @@ const transporter = nodemailer.createTransport({
 
 transporter.use("compile", htmlToText());
 
-const sendOrderEmail = (order) => {
+const sendOrderEmail = (data) => {
   const options = {
-    from: `MrDonald's`,
-    to: email,
+    from: `MrDonald's <${email}>`,
+    to: data.email,
     subject: "Ваш заказ из MrDonald's",
     html: `
-    <div>
-      <h2>Добрый день</h2>
-      <h3>Ваш заказ</h3>
-    </div>
-    
+      <div>
+        <h2>Добрый день, ${data.nameClient}</h2>
+        <h3>Ваш заказ</h3>
+        <ul>
+          ${data.order.map(
+            ({ name, count, price }) =>
+              `<li>${name} - ${count} шт., цена: ${price * count} руб.</li>`
+          )}
+        </ul>
+        <p>Итого: ${data.order.reduce((sum, item) => sum + item.price * item.count, 0)} руб.</p>
+        <small>Ожидайте курьера.</small>
+      </div>
     `,
   };
-
-  transporter.sendMail(options);
+  transporter.sendMail(options, (err, info) => {
+    if (err) {
+      console.log(info.envelope);
+      console.log("Error sendmail: " + err);
+    }
+  });
 };
 
 const firebaseConfig = {
@@ -51,25 +62,10 @@ export default function handler(req, res) {
     res.status(405).send({ message: "Only POST requests allowed" });
     return;
   }
-  const body = req.body;
-
   const newOrderKey = push(child(ref(database), "orders")).key;
-  set(ref(database, "orders/" + newOrderKey), body);
-  //console.log(body);
+  const order = req.body;
 
-  const rowId = newOrderKey;
-  const dbRef = ref(database);
+  set(ref(database, "orders/" + newOrderKey), order);
 
-  get(child(dbRef, `orders/${rowId}`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        res.status(200).json(snapshot.val());
-      } else {
-        res.status(200).json({ data: "No data available" });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500);
-    });
+  sendOrderEmail(order);
 }
