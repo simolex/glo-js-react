@@ -28,7 +28,7 @@ export const OrderTitle = styled.h2`
 
   background: rgb(252, 242, 177);
   background: linear-gradient(
-    175deg,
+    178deg,
     rgba(252, 242, 177, 1) 0%,
     rgba(203, 191, 82, 1) 11%,
     rgba(169, 140, 61, 1) 26%,

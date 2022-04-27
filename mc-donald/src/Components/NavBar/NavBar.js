@@ -61,7 +61,7 @@ export const NavBar = () => {
         <ImgLogo>
           <img src={`image/logo.svg`} alt="logo" />
         </ImgLogo>
-        <H1>MrDonald's</H1>
+        <H1>MrYonald's</H1>
       </Logo>
 
       {authentication ? (

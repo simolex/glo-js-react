@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 
 export const useTitle = (openItem) => {
-  //const [title, setTitle] = useState("MrDonald's");
+  //const [title, setTitle] = useState("MrYonald's");
 
   useEffect(() => {
-    let title = "MrDonald's";
+    let title = "MrYonald's";
 
     if (openItem) {
       title += ` - ${openItem.name}`;
